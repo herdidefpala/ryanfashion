@@ -103,9 +103,19 @@
     .typewriter-wrap { display:inline-flex; align-items:center; min-height:1.3em; }
     .tw-cursor { display:inline-block; width:3px; height:.9em; background:var(--sky); margin-left:3px; border-radius:2px; animation:blink .9s step-start infinite; vertical-align:middle; }
     /* Fix layout shift dari typewriter di mobile */
+    /* Safe hero text animation - CSS only, no layout shift */
+    @keyframes fadeWord {
+      0% { opacity:0; transform:translateY(8px); }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    .hero-word {
+      display:inline-block;
+      opacity:0;
+      animation: fadeWord .6s ease forwards;
+    }
+    /* Fix layout shift */
     h1.hero-title { contain: layout; }
     .hero-desc-box { min-height: 80px; display:flex; align-items:center; }
-    @media(max-width:640px){ .hero-desc-box { min-height: 80px; } }
     .hero-desc-box { background:rgba(255,255,255,.85); backdrop-filter:blur(8px); border:1px solid var(--slate-200); border-radius:16px; padding:1rem 1.2rem; font-size:.9rem; color:var(--slate-700); line-height:1.7; margin-bottom:1.5rem; min-height:58px; }
     .hero-btns { display:flex; flex-direction:column; gap:.75rem; }
     @media(min-width:640px){ .hero-btns { flex-direction:row; } }
@@ -444,11 +454,14 @@
       <div class="anim-fade" style="text-align:center;" id="hero-text">
         <div class="hero-badge">✨ Koleksi Fashion Anak Terfavorit <div class="dot"></div></div>
         <h1 class="hero-title">
-          Fashion Anak Kekinian,<br>
+          <span class="hero-word" style="animation-delay:.1s">Fashion</span>
+          <span class="hero-word" style="animation-delay:.25s">Anak</span>
+          <span class="hero-word" style="animation-delay:.4s">Kekinian,</span><br>
           <span class="grad">
-            <span class="typewriter-wrap">
-              <span id="tw1">Kasual, Sporty & Stylish.</span><span class="tw-cursor"></span>
-            </span>
+            <span class="hero-word" style="animation-delay:.6s">Kasual,</span>
+            <span class="hero-word" style="animation-delay:.75s">Sporty</span>
+            <span class="hero-word" style="animation-delay:.9s">&amp;</span>
+            <span class="hero-word" style="animation-delay:1.05s">Stylish.</span>
           </span>
         </h1>
         <div class="hero-desc-box">
@@ -950,7 +963,7 @@ function typewriter(elId, words, speed=65, delay=2200) {
   }
   tick();
 }
-typewriter('tw1',['Kasual, Sporty & Stylish.','Bahan Premium Super Lembut.','Tampil Keren Setiap Hari.','Pilihan Terbaik Si Kecil.'],65,2000);
+// Animation handled by CSS fadeWord
 
 // ═══════════════════════════════ SCROLL ANIMATION ═══════════════════════════════
 const observer = new IntersectionObserver((entries) => {
