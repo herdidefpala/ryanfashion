@@ -102,6 +102,11 @@
     .hero-title .grad { background:linear-gradient(135deg,var(--sky),var(--indigo),#9333ea); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; background-size:200% 200%; animation:grad 6s ease infinite; }
     .typewriter-wrap { display:inline-flex; align-items:center; min-height:1.3em; }
     .tw-cursor { display:inline-block; width:3px; height:.9em; background:var(--sky); margin-left:3px; border-radius:2px; animation:blink .9s step-start infinite; vertical-align:middle; }
+    /* Fix layout shift dari typewriter di mobile */
+    h1.hero-title { contain: layout; }
+    .hero-desc-box { min-height: 80px; display:flex; align-items:center; }
+    @media(max-width:640px){ .hero-desc-box { min-height: 100px; } }
+    @media(max-width:640px){ h1.hero-title { min-height: 220px; } }
     .hero-desc-box { background:rgba(255,255,255,.85); backdrop-filter:blur(8px); border:1px solid var(--slate-200); border-radius:16px; padding:1rem 1.2rem; font-size:.9rem; color:var(--slate-700); line-height:1.7; margin-bottom:1.5rem; min-height:58px; }
     .hero-btns { display:flex; flex-direction:column; gap:.75rem; }
     @media(min-width:640px){ .hero-btns { flex-direction:row; } }
@@ -448,7 +453,7 @@
           </span>
         </h1>
         <div class="hero-desc-box">
-          🌟 <span id="tw2"></span>
+          🌟 Koleksi setelan anak premium berkualitas tinggi di Bukittinggi — nyaman, kekinian, dan terjangkau. Order mudah langsung via WhatsApp!
         </div>
         <div class="hero-btns" style="justify-content:center;">
           <a href="#sorotan-pilihan" class="btn-primary btn-bounce"><span class="shimmer"></span>Lihat Koleksi Pilihan</a>
@@ -947,7 +952,6 @@ function typewriter(elId, words, speed=65, delay=2200) {
   tick();
 }
 typewriter('tw1',['Kasual, Sporty & Stylish.','Bahan Premium Super Lembut.','Tampil Keren Setiap Hari.','Pilihan Terbaik Si Kecil.'],65,2000);
-typewriter('tw2',['Koleksi setelan anak premium berkualitas tinggi di Bukittinggi — nyaman, kekinian, dan terjangkau.','Setelan kasual & sporty berbahan katun dan terry premium yang lembut di kulit si kecil.','Pemesanan cepat dan praktis, langsung terhubung ke WhatsApp Admin kami!'],40,2800);
 
 // ═══════════════════════════════ SCROLL ANIMATION ═══════════════════════════════
 const observer = new IntersectionObserver((entries) => {
