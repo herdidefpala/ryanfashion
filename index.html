@@ -812,12 +812,16 @@
           <select class="form-input" id="order-size" style="cursor:pointer;font-weight:600;"></select>
         </div>
         <div class="form-group">
-          <label>Jumlah (Pcs) *</label>
-          <div class="qty-row">
-            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
-            <div class="qty-val" id="qty-val">1</div>
-            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
-          </div>
+          <label>Pilih Warna *</label>
+          <select class="form-input" id="order-color" style="cursor:pointer;font-weight:600;"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Jumlah (Pcs) *</label>
+        <div class="qty-row">
+          <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+          <div class="qty-val" id="qty-val">1</div>
+          <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
         </div>
       </div>
       <div class="form-group">
@@ -880,6 +884,7 @@ const PRODUCTS = [
     id:'sk069', no:1, code:'SK069', name:'Setelan Anak Casual & Keren', category:'Setelan',
     price:35000, originalPrice:75000, badge:'TERLARIS', badgeColor:'#f59e0b',
     rating:4.9, reviewsCount:62, sizes:['S','M','L'],
+    colors:['Abu-abu','Hitam','Navy','Hijau'],
     description:'Setelan anak lengkap kaos putih + celana jeans ripped premium. Bahan katun premium super lembut, pinggang karet fleksibel dengan tali serut, dan detail robek modern yang keren. Cocok untuk sekolah, bermain, olahraga, sampai jalan-jalan.',
     features:['Bahan Katun Premium Lembut','Pinggang Karet + Tali Serut','Detail Robek Modern & Trendy','Saku Depan Fungsional'],
     images:['produk1-a.png','produk1-b.png','produk1-c.jpeg','produk1-d.jpeg']
@@ -888,6 +893,7 @@ const PRODUCTS = [
     id:'sk018', no:2, code:'SK018', name:'Setelan Anak Sporty & Stylish — Hitam', category:'Setelan',
     price:35000, originalPrice:75000, badge:'FAVORIT', badgeColor:'#10b981',
     rating:4.9, reviewsCount:48, sizes:['S','M','L'],
+    colors:['Hitam','Navy','Hijau Army','Coklat'],
     description:'Setelan anak perempuan sporty bahan terry premium warna hitam elegan. Kerah Shanghai dengan kancing, logo sablon Girl Power berkualitas, list samping celana yang stylish, dan pinggang karet super fleksibel. Tampil keren setiap hari!',
     features:['Bahan Terry Premium','Kerah Shanghai + Kancing','Logo Sablon Berkualitas','List Samping Sporty'],
     images:['produk2-a.jpeg','produk2-b.jpeg','produk2-c.jpeg','produk2-d.jpeg']
@@ -896,6 +902,7 @@ const PRODUCTS = [
     id:'sk019', no:3, code:'SK019', name:'Setelan Anak Sporty & Stylish — Navy', category:'Setelan',
     price:35000, originalPrice:75000, badge:'NEW', badgeColor:'#4f46e5',
     rating:4.8, reviewsCount:31, sizes:['S','M','L'],
+    colors:['Navy','Hitam','Abu-abu','Hijau'],
     description:'Versi navy dari setelan sporty best seller kami. Warna biru navy yang elegan dan maskulin, bahan terry premium lembut di kulit, desain kerah Shanghai dengan kancing, dan list samping yang bikin tampilan makin sporty. Pilihan terbaik si kecil!',
     features:['Bahan Terry Premium','Kerah Shanghai + Kancing','Logo Sablon Berkualitas','Pinggang Karet Fleksibel'],
     images:['produk3-a.jpeg','produk3-b.jpeg','produk3-c.jpeg','produk3-d.jpeg']
@@ -910,6 +917,7 @@ let currentSort = 'terbaru';
 let currentDetailProduct = null;
 let currentOrderProduct = null;
 let currentOrderSize = 'M';
+let currentOrderColor = '';
 let currentQty = 1;
 let selectedDetailSize = 'M';
 
@@ -1109,6 +1117,7 @@ function openOrderModal(id, defaultSize) {
   document.getElementById('order-name').textContent = p.name;
   document.getElementById('order-unit-price').textContent = fmt(p.price) + ' / pcs';
   document.getElementById('order-size').innerHTML = p.sizes.map(s=>`<option${s===currentOrderSize?' selected':''}>${s}</option>`).join('');
+  document.getElementById('order-color').innerHTML = (p.colors||['Sesuai Foto']).map((c,i)=>`<option${i===0?' selected':''}>${c}</option>`).join('');
   document.getElementById('qty-val').textContent = 1;
   document.getElementById('order-nama').value = '';
   document.getElementById('order-wa').value = '';
@@ -1137,6 +1146,7 @@ function submitOrder(e) {
   const kota = document.getElementById('order-kota').value.trim() || 'Bukittinggi';
   const kurir = document.getElementById('order-kurir').value;
   const size = document.getElementById('order-size').value;
+  const color = document.getElementById('order-color').value;
   if(!nama||!wa||!alamat) { alert('Mohon lengkapi Nama, No. WhatsApp, dan Alamat Anda!'); return; }
   const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
   const orderId = `RF-${dateStr}-${Math.floor(100+Math.random()*900)}`;
@@ -1147,6 +1157,7 @@ function submitOrder(e) {
 ----------------------------------------
 📌 *Produk:* No. ${p.no} (${p.code}) - ${p.name}
 📏 *Ukuran:* ${size}
+🎨 *Warna:* ${color}
 🔢 *Jumlah:* ${currentQty} pcs
 💰 *Subtotal:* ${fmt(p.price * currentQty)}
 ----------------------------------------
